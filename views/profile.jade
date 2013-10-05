@@ -1,0 +1,28 @@
+
+
+extends layout
+
+block content
+    button(class='btn')#img-btn Select Profile Picture...
+    form(action='/users/profile', method='post').form-signin
+        h2.form-signin-heading Profile
+        input(type='text', name='firstName', placeholder='First Name', class='input-block-level', value=profile.firstName)
+        input(type='text', name='lastName', placeholder='Last Name', class='input-block-level', value=profile.lastName)
+        input(type='text', name='hometown', placeholder='Hometown', class='input-block-level', value=profile.hometown)
+        input(type='text', name='gender', placeholder='Gender', class='input-block-level', value=profile.gender)
+
+        input(type='hidden', name='user-image')#user-image pro.image
+        input(type='submit', class='btn btn-large btn-primary') Register
+
+    script(type='text/javascript').
+        $('#img-btn').on('click', function(){
+            filepicker.pick(function(InkBlob){
+                $('#user-image').val(InkBlob.url);
+            });
+            //$('#user-image').val('http://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG');
+
+
+        });
+
+
+

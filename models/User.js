@@ -10,6 +10,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
+var Conversation = require('./Conversation');
 var SALT_WORK_FACTOR = 10;
 
 var UserSchema = new Schema({
@@ -48,5 +49,36 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
         cb(null, isMatch);
     });
 };
+UserSchema.statics.random = function(callback) {
+    console.log(this);
+    mongoose.model('User', UserSchema).count(function(err, count) {
+        if (err) {
+            return callback(err);
+        }
+        var rand = Math.floor(Math.random() * count);
+        mongoose.model('User', UserSchema).findOne().skip(rand).exec(callback);
+    }.bind(this));
+};
+
+
+
+
+UserSchema.methods.startConversation = function() {
+    var convo = new Conversation();
+    var me = this;
+
+    UserSchema.statics.random(function(err, user){
+        if(err){
+            return err;
+        }
+        if(me == user){
+            return me.startConversation();
+        }
+
+        convo = new Conversation({user1: me._id, user2: user._id, messages: []});
+        convo.save();
+        return convo;
+    })
+}
 
 module.exports = mongoose.model('User', UserSchema);
