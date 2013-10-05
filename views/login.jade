@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h5 #{msg}
+    form.form-signin(action='/users/login', method='post')
+        h2.form-signin-heading Register
+        input(type='text', name='username', placeholder='Username', class='input-block-level')
+        input(type='password', name='password', placeholder='Username', class='input-block-level')
+
+        input(type='hidden', name='user-image')#user-image
+        input(type='submit', class='btn btn-large btn-primary') Login
+
