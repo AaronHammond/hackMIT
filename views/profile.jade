@@ -3,7 +3,6 @@
 extends layout
 
 block content
-    button(class='btn')#img-btn Select Profile Picture...
     form(action='/users/profile', method='post').form-signin
         h2.form-signin-heading Profile
         input(type='text', name='firstName', placeholder='First Name', class='input-block-level', value=profile.firstName)
@@ -11,7 +10,11 @@ block content
         input(type='text', name='hometown', placeholder='Hometown', class='input-block-level', value=profile.hometown)
         input(type='text', name='gender', placeholder='Gender', class='input-block-level', value=profile.gender)
 
-        input(type='hidden', name='user-image', value=profile.image)#user-image pro.image
+        input(type='hidden', name='user-image', value=profile.image)#user-image
+        image(src=profile.image, height=150, width=150, margin-left=10)
+        | <br /> <br />
+        a#img-btn Change Profile Picture...
+        | <br /> <br />
         input(type='submit', class='btn btn-large btn-primary') Register
 
     script(type='text/javascript').
@@ -19,7 +22,6 @@ block content
             filepicker.pick(function(InkBlob){
                 $('#user-image').val(InkBlob.url);
             });
-            //$('#user-image').val('http://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG');
 
 
         });

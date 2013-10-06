@@ -1,0 +1,26 @@
+{
+    "name": "application-name",
+    "version": "0.0.1-13",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express": "latest",
+        "socket.io": "latest",
+        "jade": "*",
+        "connect-flash": "latest",
+        "connect-mongo": "latest",
+        "passport": "latest",
+        "passport-local": "latest",
+        "mongoose": "latest",
+        "bcrypt": "latest",
+        "session-mongoose": "latest",
+        "cookie": "latest",
+        "connect-ensure-login": "latest"
+    },
+    "subdomain": "ahammond-hackMIT",
+    "engines": {
+        "node": "0.10.x"
+    }
+}

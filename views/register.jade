@@ -3,13 +3,13 @@
 extends layout
 
 block content
-    button(class='btn')#img-btn Select Profile Picture...
     h5 #{msg}
     form.form-signin(action='/users/register', method='post')
         h2.form-signin-heading Register
         input(type='text', name='username', placeholder='Username', class='input-block-level')
-        input(type='password', name='password', placeholder='Username', class='input-block-level')
-
+        input(type='password', name='password', placeholder='Password', class='input-block-level')
+        a(class='btn-large')#img-btn Select Profile Picture...
+        | <br /> <br />
         input(type='hidden', name='user-image')#user-image
         input(type='submit', class='btn btn-large btn-primary') Register
     script(type='text/javascript').

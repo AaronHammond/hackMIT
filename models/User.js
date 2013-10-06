@@ -65,12 +65,12 @@ UserSchema.statics.random = function(callback) {
 UserSchema.methods.startConversation = function() {
     var convo = new Conversation();
     var me = this;
-
+    console.log('starting a convo');
     UserSchema.statics.random(function(err, user){
         if(err){
             return err;
         }
-        if(me == user){
+        if(String(me._id) == String(user._id)){
             return me.startConversation();
         }
 

@@ -7,28 +7,42 @@ block content
     div.container-fluid
         div.row-fluid
             div.span8
-                h1 Chat
+                h3 Chat
                 div#messages
-                input(type='text')#chatInput
-                button#chatBtn
-                    |Chat
-            div.span4
-                h1 Profile
-                image#image
-                h4#firstName
-                h4#lastName
-                h4#hometown
+                div#chatBar
+                    button(class='pull-left btn btn-danger')#killBtn
+                        |Leave Conversation
+                    button(class='pull-right btn btn-primary')#chatBtn
+                        |Chat
+                    input(type='text', class='pull-right input-block-level')#chatInput
 
+            div.span4
+                h3 Their Profile
+                image#image
+                div.container-fluid(style='padding-left: 0px;')
+
+                    div.profile-field.row-fluid#labelFirstName(hidden=true)
+                        h4.pull-left.span4 First Name
+                        h4#firstName.pull-left.span6(style='font-weight: 100;')
+                    div.profile-field.row-fluid#labelLastName(hidden=true)
+                        h4.pull-left.span4 Last Name
+                        h4#lastName.pull-left.span6(style='font-weight: 100;')
+                    div.profile-field.row-fluid#labelHometown(hidden=true)
+                        h4.pull-left.span4 Hometown
+                        h4#hometown.pull-left.span6(style='font-weight: 100;')
+
+    form(hidden='true', action='/users/killconversation', method='post')#killerForm
 
 
 
 
 
     script(type='text/javascript').
-        var socket = io.connect('http://localhost:3000');
+        //var socket = io.connect('http://localhost:3000');
+        var socket = io.connect(window.location.hostname + ':' + window.location.port);
         socket.on('message', function(data){
             if(data){
-                $('#messages').append(data + '<br/>');
+                $('#messages').append(data + '<br/> &nbsp;');
                 $("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 40);
             }
         });
@@ -44,10 +58,26 @@ block content
             socket.emit('message', $('#chatInput').val());
         });
 
+        $('#killBtn').on('click', function(){
+            $('#killerForm').submit();
+        });
         function displayProfile(prof){
             $('#image').attr('src', prof.image);
-            $('#firstName').text(prof.firstName);
-            $('#lastName').text(prof.lastName);
-            $('#hometown').text(prof.hometown);
+            var blur = 14;
+            if(prof.firstName){
+                $('#firstName').text(prof.firstName);
+                $('#labelFirstName').show();
+            }
+            if(prof.lastName){
+                $('#lastName').text(prof.lastName);
+                $('#labelLastName').show();
+                blur = blur - 7;
+            }
+            if(prof.hometown){
+                $('#hometown').text(prof.hometown);
+                $('#labelHometown').show();
+                blur = blur - 7;
+            }
+            $('#image').css('-webkit-filter', 'blur(' + blur + 'px)');
         }
 
