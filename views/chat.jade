@@ -1,24 +1,53 @@
 extends layout
 
 block content
-    h1 Chat
-
-    div#messages
 
 
-    input(type='text')#chatInput
-    button#chatBtn
-        |Chat
+
+    div.container-fluid
+        div.row-fluid
+            div.span8
+                h1 Chat
+                div#messages
+                input(type='text')#chatInput
+                button#chatBtn
+                    |Chat
+            div.span4
+                h1 Profile
+                image#image
+                h4#firstName
+                h4#lastName
+                h4#hometown
+
+
+
+
+
 
     script(type='text/javascript').
         var socket = io.connect('http://localhost:3000');
         socket.on('message', function(data){
             if(data){
                 $('#messages').append(data + '<br/>');
+                $("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 40);
             }
-        })
+        });
+
+        socket.on('profile', function(data){
+
+                console.log(data);
+                displayProfile(data);
+
+        });
 
         $('#chatBtn').on('click', function (){
             socket.emit('message', $('#chatInput').val());
         });
+
+        function displayProfile(prof){
+            $('#image').attr('src', prof.image);
+            $('#firstName').text(prof.firstName);
+            $('#lastName').text(prof.lastName);
+            $('#hometown').text(prof.hometown);
+        }
 
